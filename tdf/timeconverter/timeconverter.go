@@ -10,14 +10,13 @@ type ut struct {
 	unixOrUdf  bool // "unix" if true, "udf" is false
 }
 
-func (p ut) converter() int64 {
+func (p ut) converter() time.Time {
+	var tm time.Time = nil
 	if p.unixOrUdf == true {
 		timetemplate := "20060102T150405"
 		tm, err := time.Parse(p.timestamps, timetemplate[:len(p.timestamps)])
 		if err != nil {
 			panic(err)
-		} else {
-			return tm
 		}
 	} else {
 		i, err := strconv.ParseInt("1405544146", 10, 64)
@@ -25,7 +24,7 @@ func (p ut) converter() int64 {
 			panic(err)
 		}
 		tm := time.Unix(i, 0)
-		return tm
 	}
-	return 0
+	return tm
+
 }
