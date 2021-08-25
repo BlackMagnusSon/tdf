@@ -1,11 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	tc "tdf/timeconverter"
+)
 
 func main() {
-	var tested int64 = 0
-	var time_To_Test = timeconverter.ut{timestamps: "19999999", unixOrUdf: false}
-	var k = time_To_Test.converter()
+	var timeToTest = tc.Ut{Timestamps: "19999999", UnixOrUdf: false}
+	var k = timeToTest.Converter()
 
 	fmt.Printf("tTime is: %s\n", k.Format("15:04:05.999"))
 }
