@@ -13,20 +13,21 @@ type Ut struct {
 
 //Converter is конвертирует время
 func (p Ut) Converter() time.Time {
+	loc, _ := time.LoadLocation("UTC")
 	if p.UnixOrUdf == true {
 		timetemplate := "20060102T150405"
-		tm, err := time.Parse(p.Timestamps, timetemplate[:len(p.Timestamps)])
+		tm, err := time.Parse(timetemplate[:len(p.Timestamps)], p.Timestamps)
 		if err != nil {
 			panic(err)
 		}
-		return tm
+		return tm.In(loc)
 	} else {
-		i, err := strconv.ParseInt("1405544146", 10, 64)
+		i, err := strconv.ParseInt(p.Timestamps, 10, 64)
 		if err != nil {
 			panic(err)
 		}
 		tm := time.Unix(i, 0)
-		return tm
+		return tm.In(loc)
 	}
 
 }

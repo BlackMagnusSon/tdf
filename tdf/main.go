@@ -1,14 +1,22 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	tc "tdf/timeconverter"
 )
 
 func main() {
-	var timeToTest = tc.Ut{Timestamps: "19999999", UnixOrUdf: false}
+	useUdf := flag.Bool("udf", false, "convert udf from udf or not")
+	useTime := flag.String("t", "20200115T", "time")
+	flag.Parse()
+	var timeToTest = tc.Ut{Timestamps: *useTime, UnixOrUdf: *useUdf}
 	var k = timeToTest.Converter()
+	if *useUdf {
+		fmt.Println(k.Unix())
 
-	fmt.Printf("Time is: %s\n", k.Format("15:04:05.999"))
-	fmt.Printf("Time is: %s\n", k.Format("15:04:05.999"))
+	} else {
+		fmt.Printf("%s\n", k.Format("20060102T150405"))
+
+	}
 }
