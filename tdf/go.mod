@@ -1,3 +1,3 @@
-module tdf
+module timeconverter
 
 go 1.15
