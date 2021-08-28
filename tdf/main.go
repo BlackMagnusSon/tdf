@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	tc "homeProject/tdf/timeconverter"
+	tc "github.com/BlackMagnusSon/tdf/timeconverter"
 )
 
 func main() {
