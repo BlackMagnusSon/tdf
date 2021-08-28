@@ -3,7 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	tc "tdf/timeconverter"
+
+	tc "github.com/BlackMagnusSon/tdf/tree/master/tdf/timeconverter"
 )
 
 func main() {
