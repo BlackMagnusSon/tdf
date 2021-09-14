@@ -12,7 +12,7 @@ type Ut struct {
 }
 
 //Converter is конвертирует время
-func (p Ut) Converter() time.Time {
+func (p Ut) Converter(k chan time.Time) {
 	loc, _ := time.LoadLocation("UTC")
 	if p.UnixOrUdf == true {
 		timetemplate := "20060102T150405"
@@ -20,14 +20,16 @@ func (p Ut) Converter() time.Time {
 		if err != nil {
 			panic(err)
 		}
-		return tm.In(loc)
+		k <- tm.In(loc)
+		return
 	} else {
 		i, err := strconv.ParseInt(p.Timestamps, 10, 64)
 		if err != nil {
 			panic(err)
 		}
 		tm := time.Unix(i, 0)
-		return tm.In(loc)
+		k <- tm.In(loc)
+		return
 	}
 
 }

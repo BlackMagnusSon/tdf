@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"strings"
+	"time"
 
 	tc "github.com/BlackMagnusSon/tdf/timeconverter"
 )
@@ -13,7 +14,9 @@ func main() {
 	flag.Parse()
 	useUdf := strings.Contains(*useTime, "T")
 	var timeToTest = tc.Ut{Timestamps: *useTime, UnixOrUdf: useUdf}
-	var k = timeToTest.Converter()
+	tm := make(chan time.Time)
+	go timeToTest.Converter(tm)
+	k := <-tm
 	if useUdf {
 		fmt.Println(k.Unix())
 
