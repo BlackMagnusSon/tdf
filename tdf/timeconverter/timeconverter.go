@@ -2,6 +2,7 @@ package timeconverter
 
 import (
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -32,4 +33,20 @@ func (p Ut) Converter(k chan time.Time) {
 		return
 	}
 
+}
+
+//TimeConvert Converting time
+func TimeConvert(useTime string) string {
+	useUdf := strings.Contains(useTime, "T")
+	var timeToTest = Ut{Timestamps: useTime, UnixOrUdf: useUdf}
+	tm := make(chan time.Time)
+	go timeToTest.Converter(tm)
+	k := <-tm
+	if useUdf {
+		return strconv.FormatInt(k.Unix(), 10)
+
+	} else {
+		return (k.Format("20060102T150405"))
+
+	}
 }

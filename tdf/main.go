@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strconv"
 	"strings"
-	"time"
 
 	tc "github.com/BlackMagnusSon/tdf/timeconverter"
 )
@@ -12,16 +12,29 @@ import (
 func main() {
 	useTime := flag.String("t", "20200115T", "time")
 	flag.Parse()
-	useUdf := strings.Contains(*useTime, "T")
-	var timeToTest = tc.Ut{Timestamps: *useTime, UnixOrUdf: useUdf}
-	tm := make(chan time.Time)
-	go timeToTest.Converter(tm)
-	k := <-tm
-	if useUdf {
-		fmt.Println(k.Unix())
+
+	IsItRange := strings.Contains(*useTime, "-")
+
+	if IsItRange {
+		fromAndTo := strings.Split(*useTime, "-")
+		for i := 0; i < len(fromAndTo); i++ {
+			tm := fromAndTo[i]
+			fromAndTo[i] = tc.TimeConvert(tm)
+
+		}
+		stValue, err := strconv.ParseInt(fromAndTo[0], 10, 64)
+		ndValue, err := strconv.ParseInt(fromAndTo[1], 10, 64)
+		if err != nil {
+			panic(err)
+		}
+		if stValue < ndValue {
+			fmt.Printf("from=%d&to=%d\n", stValue, ndValue)
+		} else {
+			fmt.Printf("from=%d&to=%d\n", ndValue, stValue)
+		}
 
 	} else {
-		fmt.Printf("%s\n", k.Format("20060102T150405"))
-
+		fmt.Print(tc.TimeConvert(*useTime) + "\n")
 	}
+
 }
