@@ -15,7 +15,7 @@ type Ut struct {
 //Converter is конвертирует время
 func (p Ut) Converter(k chan time.Time) {
 	loc, _ := time.LoadLocation("UTC")
-	if p.UnixOrUdf == true {
+	if p.UnixOrUdf {
 		timetemplate := "20060102T150405"
 		tm, err := time.Parse(timetemplate[:len(p.Timestamps)], p.Timestamps)
 		if err != nil {
