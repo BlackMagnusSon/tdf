@@ -37,6 +37,9 @@ func (p Ut) Converter(k chan time.Time) {
 
 //TimeConvert Converting time
 func TimeConvert(useTime string) string {
+	if useTime == "now" {
+		return strconv.FormatInt(time.Now().Unix(), 10)
+	}
 	useUdf := strings.Contains(useTime, "T")
 	var timeToTest = Ut{Timestamps: useTime, UnixOrUdf: useUdf}
 	tm := make(chan time.Time)
